@@ -15,16 +15,9 @@ except Exception:
 
 import timm
 
-try:
-    from timm.layers import trunc_normal_
-except Exception:
-    from timm.models.layers import trunc_normal_
-
-try:
-    from timm.data.mixup import Mixup
-except Exception:
-    from timm.data import Mixup
-
+# assert timm.__version__ == "0.3.2"  # version check
+from timm.models.layers import trunc_normal_
+from timm.data.mixup import Mixup
 from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 
 import os
@@ -429,8 +422,8 @@ def main(args):
                     name='best'
                 )
 
-        log_stats = {**{f'train_{k}': v for k, v in train_stats.items() if k != 'cm'},
-                     **{f'val_{k}': v for k, v in val_stats.items() if k != 'cm'},
+        log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
+                     **{f'val_{k}': v for k, v in val_stats.items()},
                      'epoch': epoch,
                      'n_parameters': n_parameters}
 

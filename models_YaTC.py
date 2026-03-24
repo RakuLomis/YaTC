@@ -8,8 +8,6 @@ from timm.models.vision_transformer import Block, DropPath, Mlp
 
 from util.pos_embed import get_2d_sincos_pos_embed
 
-import skimage.filters.rank as sfr
-from skimage.morphology import disk
 import numpy as np
 
 
@@ -70,7 +68,7 @@ class TrafficTransformer(timm.models.vision_transformer.VisionTransformer):
 
         return x
 
-    def forward_features(self, x):
+    def forward_features(self, x, attn_mask=None, is_causal=False, **kwargs):
         B, C, H, W = x.shape
         x = x.reshape(B, C, 5, -1)
         for i in range(5):
@@ -91,6 +89,14 @@ class TrafficTransformer(timm.models.vision_transformer.VisionTransformer):
 
         outcome = self.fc_norm(x)
         return outcome
+
+    def forward(self, x, attn_mask=None, is_causal=False, **kwargs):
+        # Newer timm versions expect forward_features() to return token sequences
+        # for forward_head(). YaTC returns a pooled feature vector directly, so
+        # we route to classification head explicitly for compatibility.
+        x = self.forward_features(x, attn_mask=attn_mask, is_causal=is_causal, **kwargs)
+        x = self.head(x)
+        return x
 
 
 class MaskedAutoencoder(nn.Module):

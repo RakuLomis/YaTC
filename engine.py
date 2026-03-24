@@ -16,6 +16,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def amp_autocast():
+    if hasattr(torch, "amp") and hasattr(torch.amp, "autocast"):
+        return torch.amp.autocast(device_type="cuda", enabled=torch.cuda.is_available())
+    return torch.cuda.amp.autocast()
+
+
 def pretrain_one_epoch(model: torch.nn.Module,
                     data_loader: Iterable, optimizer: torch.optim.Optimizer,
                     device: torch.device, epoch: int, loss_scaler,
@@ -48,7 +54,7 @@ def pretrain_one_epoch(model: torch.nn.Module,
 
         samples = samples.to(device, non_blocking=True)
 
-        with torch.cuda.amp.autocast():
+        with amp_autocast():
             loss, _, _ = model(samples, mask_ratio=args.mask_ratio)
 
         loss_value = loss.item()
@@ -123,7 +129,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         if mixup_fn is not None:
             samples, targets = mixup_fn(samples, targets)
 
-        with torch.cuda.amp.autocast():
+        with amp_autocast():
             outputs = model(samples)
             loss = criterion(outputs, targets)
 
@@ -189,7 +195,7 @@ def evaluate(data_loader, model, device):
         target = target.to(device, non_blocking=True)
 
         # compute output
-        with torch.cuda.amp.autocast():
+        with amp_autocast():
             output = model(images)
             loss = criterion(output, target)
 

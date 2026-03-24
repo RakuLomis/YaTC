@@ -3,11 +3,11 @@ import datetime
 import os
 import time
 from collections import defaultdict, deque
+from math import inf
 from pathlib import Path
 
 import torch
 import torch.distributed as dist
-from torch._six import inf
 
 
 class SmoothedValue(object):
@@ -241,7 +241,13 @@ class NativeScalerWithGradNormCount:
     state_dict_key = "amp_scaler"
 
     def __init__(self):
-        self._scaler = torch.cuda.amp.GradScaler()
+        if hasattr(torch, "amp") and hasattr(torch.amp, "GradScaler"):
+            try:
+                self._scaler = torch.amp.GradScaler("cuda", enabled=torch.cuda.is_available())
+            except TypeError:
+                self._scaler = torch.amp.GradScaler(enabled=torch.cuda.is_available())
+        else:
+            self._scaler = torch.cuda.amp.GradScaler(enabled=torch.cuda.is_available())
 
     def __call__(self, loss, optimizer, clip_grad=None, parameters=None, create_graph=False, update_grad=True):
         self._scaler.scale(loss).backward(create_graph=create_graph)
