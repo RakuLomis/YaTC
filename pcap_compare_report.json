@@ -1,0 +1,86 @@
+{
+  "pcap_a": {
+    "path": "E:\\Coding\\TrafficData\\datasets_raw_add2\\CipherSpectrum\\adblockplus.org\\traffic_2024-01-22_adblockplus.org_chacha20_firefox_7.pcap.TCP_10-0-2-15_44910_148-251-232-132_443.pcap",
+    "sha256": "c44a4a1cbffb68e2bff2d12cdd507de00cbcbcc80f73feb183ad975388fe6432",
+    "packet_count": 69,
+    "flow_key_first_seen": {
+      "ip_version": 4,
+      "proto": 6,
+      "src_ip": "10.0.2.15",
+      "dst_ip": "148.251.232.132",
+      "src_port": 44910,
+      "dst_port": 443
+    },
+    "avg_pkt_len": 1093.1884057971015,
+    "avg_payload_len": 1038.840579710145,
+    "avg_iat": 0.047582086394814885
+  },
+  "pcap_b": {
+    "path": "E:\\Coding\\TrafficData\\datasets_raw_add2\\CipherSpectrum\\adblockplus.org\\traffic_2024-02-14_adblockplus.org_aes-128_firefox_34.pcap.TCP_10-0-2-15_44910_148-251-232-132_443.pcap",
+    "sha256": "9cfb7b26591f52b5d490c2245de37422a75766352fc2fbf1a2f73ab5505fba00",
+    "packet_count": 32,
+    "flow_key_first_seen": {
+      "ip_version": 4,
+      "proto": 6,
+      "src_ip": "10.0.2.15",
+      "dst_ip": "148.251.232.132",
+      "src_port": 44910,
+      "dst_port": 443
+    },
+    "avg_pkt_len": 668.53125,
+    "avg_payload_len": 613.78125,
+    "avg_iat": 0.08036997241358604
+  },
+  "packet_level_similarity": {
+    "aligned_packet_count": 32,
+    "exact_same_packet_count": 0,
+    "exact_same_packet_ratio": 0.0,
+    "avg_common_prefix_bytes_per_packet": 14.25,
+    "max_common_prefix_bytes_per_packet": 18
+  },
+  "stream_level_similarity": {
+    "longest_common_contiguous_bytes": 140,
+    "offset_in_a": 320,
+    "offset_in_b": 320,
+    "block_sha256": "bed312fa097a1cad66768915cc3a494dcb7133be5d339a543a758a20fec3b3dc"
+  },
+  "field_comparison": {
+    "same_5tuple_first_seen": true,
+    "same_packet_count": false,
+    "pkt_len_head_equal_ratio_50": 0.5625,
+    "payload_len_head_equal_ratio_50": 0.5625,
+    "ttl_head_equal_ratio_20": 1.0,
+    "tcp_flags_head_equal_ratio_20": 0.95,
+    "tcp_win_head_equal_ratio_20": 1.0,
+    "tls_first_sni_a": null,
+    "tls_first_sni_b": null,
+    "tls_first_version_a": null,
+    "tls_first_version_b": null,
+    "tls_first_cipher_head_a": [],
+    "tls_first_cipher_head_b": []
+  },
+  "yatc_representation_similarity": {
+    "definition": "Each packet -> header(80B)+payload(240B), first 5 packets, concat to 1600B stream.",
+    "num_packets": 5,
+    "header_bytes_per_packet": 80,
+    "payload_bytes_per_packet": 240,
+    "stream_bytes": 1600,
+    "a_stream_sha256": "d9a6e7d08a91b794c5eb47d98fd5365d5b6779abac8bb4efa19d452ac625b833",
+    "b_stream_sha256": "a7229bb7b23c6a58bd59830cebb4560e68b1ce25db048bca1b66c2f701eeafd9",
+    "packet_level": {
+      "aligned_packet_count": 5,
+      "exact_same_packet_count": 0,
+      "exact_same_packet_ratio": 0.0,
+      "avg_common_prefix_bytes_per_packet": 4,
+      "max_common_prefix_bytes_per_packet": 4
+    },
+    "first_n_byte_similarity": {
+      "n_requested": 1600,
+      "n_compared": 1600,
+      "equal_bytes": 1449,
+      "equal_ratio": 0.905625,
+      "common_prefix_len": 4
+    }
+  },
+  "note": "same_5tuple_first_seen=true does not guarantee same flow instance. Use TLS fields, packet length/time patterns and byte-level similarity together."
+}
